@@ -1,0 +1,13 @@
+version: '3'
+services:
+  hangfire-client:
+    build:
+      context: client
+    image: hangfire-dotnet3-client
+  hangfire-server:
+    build:
+      context: server
+    image: hangfire-dotnet3-server
+  hangfire-server2:
+    build:
+      context: server
