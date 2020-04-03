@@ -24,7 +24,7 @@ namespace client {
             services.AddRazorPages();
 
             services.AddHangfire(config => {
-                string connectionString = "mongodb://mongo";
+                string connectionString = "mongodb://localhost";
                 string databaseName = "ApplicationDatabase";
                 var storageOptions = new MongoStorageOptions {
                     MigrationOptions = new MongoMigrationOptions {
