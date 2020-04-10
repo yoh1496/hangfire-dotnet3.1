@@ -11,6 +11,7 @@ namespace server {
                 .ConfigureServices((context, services) => {
                     services.AddHangfire(config => {
                         config.UseColouredConsoleLogProvider();
+                        config.UseFilter(new Filters.ReportPerformanceFilter());
                         config.UseMongoStorage("mongodb://localhost", "ApplicationDatabase");
                     });
                     services.AddHangfireServer(options => {
