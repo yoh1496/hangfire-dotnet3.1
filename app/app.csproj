@@ -10,4 +10,8 @@
     <PackageReference Include="Hangfire.Mongo" Version="0.6.5" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\common\common.csproj" />
+  </ItemGroup>
+
 </Project>

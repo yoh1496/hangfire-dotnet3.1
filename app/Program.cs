@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using common.Tasks;
 using Hangfire;
 using Hangfire.Logging;
 using Hangfire.Mongo;
@@ -7,9 +8,6 @@ using Hangfire.Mongo;
 namespace app {
     class Program {
 
-        public static void funcA(int i) {
-            Console.WriteLine($"task #{i}");
-        }
         static void Main(string[] args) {
 
             var migrationOptions = new MongoMigrationOptions {
@@ -24,7 +22,7 @@ namespace app {
                 .UseMongoStorage("mongodb://localhost", "ApplicationDatabase", storageOptions);
             int Cnt = 10;
             for (int i = 0; i < Cnt; i++) {
-                BackgroundJob.Enqueue(() => Console.WriteLine($"task #{i}"));
+                BackgroundJob.Enqueue<AwesomeTask>(x => x.Execute($"task #{i}"));
                 Console.WriteLine($"Enqueued task#{i}");
             }
         }
