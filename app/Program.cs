@@ -22,7 +22,7 @@ namespace app {
                 .UseMongoStorage("mongodb://localhost", "ApplicationDatabase", storageOptions);
             int Cnt = 10;
             for (int i = 0; i < Cnt; i++) {
-                BackgroundJob.Enqueue<AwesomeTask>(x => x.Execute($"task #{i}"));
+                BackgroundJob.Enqueue<AwesomeTask>(x => x.Execute($"task #{i}", null));
                 Console.WriteLine($"Enqueued task#{i}");
             }
         }
