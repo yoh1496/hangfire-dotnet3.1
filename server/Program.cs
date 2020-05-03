@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Threading.Tasks;
 using common.Interfaces;
+using common.Models;
+using common.Services;
+using common.Tasks;
 using Hangfire;
 using Hangfire.Mongo;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MongoDB.Driver;
 
 namespace server {
 
@@ -20,7 +24,19 @@ namespace server {
                     services.AddHangfireServer(options => {
                         options.WorkerCount = 4;
                     });
+
+                    services.AddTransient<IMongoDatabase>(serviceProvider => {
+                        return new MongoClient("mongodb://localhost/").GetDatabase("current");
+                    });
+
+                    services.AddTransient<IMongoCollection<TaskModel>>(serviceProvider => {
+                        return serviceProvider
+                            .GetService<IMongoDatabase>()
+                            .GetCollection<TaskModel>("tasks");
+                    });
+                    services.AddTransient<ITaskService, TaskService>();
                     services.AddTransient<IAwesomeService, DummyAwesomeService>();
+                    services.AddTransient<AwesomeTask>();
                 });
             await hostBuilder.RunConsoleAsync();
         }
