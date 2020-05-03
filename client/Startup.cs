@@ -2,6 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using common.Interfaces;
+using common.Models;
+using common.Services;
 using Hangfire;
 using Hangfire.Mongo;
 using Microsoft.AspNetCore.Builder;
@@ -10,6 +13,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MongoDB.Driver;
 
 namespace client {
     public class Startup {
@@ -33,6 +37,18 @@ namespace client {
                 };
                 config.UseMongoStorage(connectionString, databaseName, storageOptions);
             });
+
+            services.AddTransient<IMongoDatabase>(serviceProvider => {
+                return new MongoClient("mongodb://localhost/").GetDatabase("current");
+            });
+
+            services.AddTransient<IMongoCollection<TaskModel>>(serviceProvider => {
+                return serviceProvider
+                    .GetService<IMongoDatabase>()
+                    .GetCollection<TaskModel>("tasks");
+            });
+
+            services.AddTransient<ITaskService, TaskService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

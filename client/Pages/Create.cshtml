@@ -1,0 +1,13 @@
+﻿@page
+@model client.CreateModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+}
+
+<p>Enter a task name:</p>
+
+<form method="post">
+    Name:
+    <input asp-for="taskName" />
+    <input type="submit" />
+</form>

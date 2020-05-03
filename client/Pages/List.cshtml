@@ -1,0 +1,29 @@
+﻿@page
+@model client.ListModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+}
+
+<p>Current tasks are below:</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Status</th>
+            <th scope="col">Result</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.tasks)
+{
+    <tr>
+        <th scope="row">@item.Id</th>
+        <td>@item.Name</td>
+        <td>@item.Status</td>
+        <td>@item.Result</td>
+    </tr>
+}
+    </tbody>
+</table>
